@@ -36,7 +36,6 @@ app = Flask(__name__)
 # Define default route for app
 @app.route("/")
 def root():
-	time.sleep(0.5)
 	return render_template("home.html")
 
 # Feed request
