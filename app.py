@@ -20,23 +20,23 @@ servo1 = GPIO.PWM(11,50) # pin 11 for servo1, pulse 50Hz
 servo1.start(0)
 
 # Define variables
-startAngle = 180
-endAngle = 140
-
-# Prevent motor malfunction
-motorBusy = False
+# startAngle = 180
+# endAngle = 140
 
 # Method to set the angle
-def setAngle(angle):
-	servo1.ChangeDutyCycle(2+(angle/18))
-	time.sleep(0.5)
-	#servo1.ChangeDutyCycle(0)
+# def setAngle(angle):
+# 	servo1.ChangeDutyCycle(2+(angle/18))
+# 	time.sleep(0.5)
+# 	#servo1.ChangeDutyCycle(0)
 
 # Feed method to quickly change angle and dispense food
 def feedMotorTurn():
-	setAngle(startAngle)
-	setAngle(endAngle)
-	setAngle(startAngle)
+	servo1.ChangeDutyCycle(12.5)  # turn towards 180 degree
+	time.sleep(1) # sleep 1 second
+	servo1.ChangeDutyCycle(7.5)  # turn towards 90 degree
+	time.sleep(1) # sleep 1 second
+	servo1.ChangeDutyCycle(12.5)  # turn towards 180 degree
+	time.sleep(1) # sleep 1 second
 
 app = Flask(__name__)
 
@@ -49,7 +49,6 @@ def root():
 @app.route("/feed", methods= ['POST'])
 def feed():
 	feedMotorTurn()
-	time.sleep(1)
 	return jsonify(status="success")
 
 # Prevent caching
