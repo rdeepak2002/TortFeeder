@@ -1,5 +1,5 @@
 function callFeed() {
-	//$('.feedBtn').prop('disabled', true);
+	$('.feedBtn').prop('disabled', true);
 
 	$.ajax({
 		data : {
@@ -9,7 +9,7 @@ function callFeed() {
 				url : '/feed'
 	})
 	.done(function(data) {
-		//$('.feedBtn').prop('disabled', false);
+		$('.feedBtn').prop('disabled', false);
 		console.log(data);
 	});
 }
