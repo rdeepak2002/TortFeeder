@@ -1,5 +1,5 @@
 # Import libraries
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import time
 from flask import Flask
 
