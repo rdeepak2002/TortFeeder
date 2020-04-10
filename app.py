@@ -20,6 +20,7 @@ def setAngle(angle):
 
 # Feed method to quickly change angle and dispense food
 def feed():
+    setAngle(180)
     setAngle(140)
     setAngle(180)
 
