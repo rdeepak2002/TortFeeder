@@ -1,4 +1,6 @@
 function callFeed() {
+	console.log("Calling feed!")
+
 	$.ajax({
 		data : {
 				test : "test"
@@ -7,6 +9,7 @@ function callFeed() {
 				url : '/feed'
 	})
 	.done(function(data) {
+		console.log("Done!")
 		console.log(data);
 	});
 }
