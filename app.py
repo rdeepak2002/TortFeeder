@@ -34,6 +34,7 @@ def setAngle(angle):
 
 # Feed method to quickly change angle and dispense food
 def feedMotorTurn():
+	global motorBusy
 	motorBusy = True
 	setAngle(startAngle)
 	setAngle(endAngle)
