@@ -12,19 +12,18 @@ servo1 = GPIO.PWM(11,50) # pin 11 for servo1, pulse 50Hz
 # Start PWM running, with value of 0 (pulse off)
 servo1.start(0)
 
+# Method to set the angle
 def setAngle(angle):
     servo1.ChangeDutyCycle(2+(angle/18))
     time.sleep(0.5)
     servo1.ChangeDutyCycle(0)
 
+# Feed method to quickly change angle and dispense food
 def feed():
     setAngle(90)
-    time.sleep(0.5)
     setAngle(180)
 
 setAngle(180)
-
-time.sleep(0.5)
 
 feed()
 
