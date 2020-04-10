@@ -28,6 +28,12 @@ def feed():
 	setAngle(startAngle)
 	setAngle(endAngle)
 	setAngle(startAngle)
+	time.sleep(0.5)
+	servo1.stop()
+	GPIO.cleanup()
+	GPIO.setup(11,GPIO.OUT)
+	servo1 = GPIO.PWM(11,50) # pin 11 for servo1, pulse 50Hz
+	time.sleep(0.2)
 
 # Start the motor at the necessary start angle
 setAngle(startAngle)
@@ -45,7 +51,3 @@ def hello():
 # Run the server
 if __name__ == "__main__":
 	app.run(debug=True)
-
-# Clean up GPIO
-# servo1.stop()
-# GPIO.cleanup()
