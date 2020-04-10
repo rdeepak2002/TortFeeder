@@ -1,7 +1,9 @@
 # Import libraries
 import RPi.GPIO as GPIO
 import time
-from flask import Flask
+from flask import Flask,request,render_template,send_from_directory,jsonify
+import json
+import os
 
 # Set GPIO numbering mode
 GPIO.setmode(GPIO.BOARD)
