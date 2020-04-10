@@ -26,7 +26,7 @@ def setAngle(angle):
 	servo1.ChangeDutyCycle(0)
 
 # Feed method to quickly change angle and dispense food
-def feed():
+def feedMotorTurn():
 	setAngle(startAngle)
 	setAngle(endAngle)
 	setAngle(startAngle)
@@ -36,12 +36,13 @@ app = Flask(__name__)
 # Define default route for app
 @app.route("/")
 def root():
+	time.sleep(0.5)
 	return render_template("home.html")
 
 # Feed request
 @app.route("/feed", methods= ['POST'])
 def feed():
-	feed()
+	feedMotorTurn()
 	time.sleep(0.5)
 	return jsonify(status="success")
 
