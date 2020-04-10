@@ -20,7 +20,7 @@ def root():
 # Feed method to call arduino with serial communication
 def feedMotorTurn():
 	ser = serial.Serial('/dev/ttyACM0', 9800,timeout=1)
-	time.sleep(2)
+	time.sleep(1)
 	ser.write(b'H')
 	ser.close()
 
@@ -28,7 +28,7 @@ def feedMotorTurn():
 @app.route("/feed", methods= ['POST'])
 def feed():
 	feedMotorTurn()
-	time.sleep(4)
+	time.sleep(2)
 	return jsonify(status="success")
 
 # Prevent caching
