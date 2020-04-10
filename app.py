@@ -10,10 +10,8 @@ import json
 import os
 import serial
 
+# Create the flask server
 app = Flask(__name__)
-
-# Prevent motor malfunction
-motorBusy = False
 
 # Define default route for app
 @app.route("/")
@@ -22,27 +20,17 @@ def root():
 
 # Feed method to call arduino with serial communication
 def feedMotorTurn():
-	global motorBusy
-	motorBusy = True
-
 	ser = serial.Serial('/dev/ttyACM0', 9800,timeout=1)
 	time.sleep(2)
 	ser.write(b'H')
 	ser.close()
 
-	motorBusy = False
-
 # Feed request
 @app.route("/feed", methods= ['POST'])
 def feed():
-	global motorBusy
-
-	if(motorBusy == False):
-		feedMotorTurn()
-		time.sleep(1)
-		return jsonify(status="success")
-	else:
-		return jsonify(status="busy")
+	feedMotorTurn()
+	time.sleep(1)
+	return jsonify(status="success")
 
 # Prevent caching
 @app.after_request
