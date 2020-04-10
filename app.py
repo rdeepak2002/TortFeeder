@@ -17,9 +17,16 @@ def setAngle(angle):
     time.sleep(0.5)
     servo1.ChangeDutyCycle(0)
 
+def feed():
+    setAngle(90)
+    time.sleep(0.5)
+    setAngle(180)
+
 setAngle(180)
 
-setAngle(90)
+time.sleep(0.5)
+
+feed()
 
 servo1.stop()
 GPIO.cleanup()
