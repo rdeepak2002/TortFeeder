@@ -9,15 +9,7 @@ from flask import Flask,request,render_template,send_from_directory,jsonify
 import json
 import os
 
-# Set GPIO numbering mode
-GPIO.setmode(GPIO.BOARD)
 
-# Set pin 11 as an output, and define as servo1 as PWM pin
-GPIO.setup(11,GPIO.OUT)
-servo1 = GPIO.PWM(11,50) # pin 11 for servo1, pulse 50Hz
-
-# Start PWM running, with value of 0 (pulse off)
-servo1.start(0)
 
 # Define variables
 # startAngle = 180
@@ -31,12 +23,27 @@ servo1.start(0)
 
 # Feed method to quickly change angle and dispense food
 def feedMotorTurn():
+	# Set GPIO numbering mode
+	GPIO.setmode(GPIO.BOARD)
+	# Set pin 11 as an output, and define as servo1 as PWM pin
+	GPIO.setup(11,GPIO.OUT)
+	servo1 = GPIO.PWM(11,50) # pin 11 for servo1, pulse 50Hz
+	# Start PWM running, with value of 0 (pulse off)
+	servo1.start(0)
+	time.sleep(1)
+
+	# Servo movement to dispense food
 	servo1.ChangeDutyCycle(12.5)  # turn towards 180 degree
 	time.sleep(1) # sleep 1 second
 	servo1.ChangeDutyCycle(7.5)  # turn towards 90 degree
 	time.sleep(1) # sleep 1 second
 	servo1.ChangeDutyCycle(12.5)  # turn towards 180 degree
 	time.sleep(1) # sleep 1 second
+	
+	# Clean up ports
+	servo1.stop()
+	GPIO.cleanup()
+	time.sleep(1)
 
 app = Flask(__name__)
 
