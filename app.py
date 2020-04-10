@@ -3,9 +3,10 @@
 # 2. @lxterminal -e python3 /home/pi/TortFeeder/app.py
 
 # Import libraries
-import RPi.GPIO as GPIO
+from flask import Flask,request,render_template,send_from_directory,jsonify,Response
+from importlib import import_module
+from camera_opencv import Camera
 import time
-from flask import Flask,request,render_template,send_from_directory,jsonify
 import json
 import os
 import serial
@@ -31,6 +32,17 @@ def feed():
 	feedMotorTurn()
 	time.sleep(1)
 	return jsonify(status="success")
+
+# Video streaming generator function
+def gen(camera):
+	while True:
+		frame = camera.get_frame()
+		yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+# Video streaming route
+@app.route('/video_feed')
+def video_feed():
+	return Response(gen(Camera()), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 # Prevent caching
 @app.after_request
