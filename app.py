@@ -1,6 +1,7 @@
 # Import libraries
 import RPi.GPIO as GPIO
 import time
+from flask import Flask
 
 # Set GPIO numbering mode
 GPIO.setmode(GPIO.BOARD)
@@ -33,6 +34,12 @@ setAngle(startAngle)
 
 # Call feed to dispense food
 feed()
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello, World!"
 
 # Clean up GPIO
 # servo1.stop()
