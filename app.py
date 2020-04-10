@@ -29,7 +29,7 @@ motorBusy = False
 # Method to set the angle
 def setAngle(angle):
 	servo1.ChangeDutyCycle(2+(angle/18))
-	time.sleep(0.3)
+	time.sleep(0.5)
 	servo1.ChangeDutyCycle(0)
 
 # Feed method to quickly change angle and dispense food
@@ -53,7 +53,7 @@ def feed():
 	global motorBusy
 	if(motorBusy == False):
 		feedMotorTurn()
-		time.sleep(0.8)
+		time.sleep(1)
 		motorBusy = False
 		return jsonify(status="success")
 	else:
