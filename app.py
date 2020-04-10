@@ -29,18 +29,27 @@ def feed():
 	setAngle(endAngle)
 	setAngle(startAngle)
 
-# Start the motor at the necessary start angle
-setAngle(startAngle)
-
-# Call feed to dispense food
-feed()
-
 app = Flask(__name__)
 
 # Define default route for app
 @app.route("/")
-def hello():
-	return "Hello, World!"
+def root():
+	return render_template("home.html")
+
+# Feed request
+@app.route("/feed", methods= ['POST'])
+def feed():
+	feed()
+	return jsonify(status="success")
+
+# Prevent caching
+@app.after_request
+def add_header(r):
+    r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    r.headers["Pragma"] = "no-cache"
+    r.headers["Expires"] = "0"
+    r.headers['Cache-Control'] = 'public, max-age=0'
+    return r
 
 # Run the server
 if __name__ == "__main__":
