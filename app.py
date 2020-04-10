@@ -1,3 +1,7 @@
+# How to add autostart:
+# 1. nano /home/pi/.config/lxsession/LXDE-pi/autostart
+# 2. @lxterminal -e python3 /home/pi/TortFeeder/app.py
+
 # Import libraries
 import RPi.GPIO as GPIO
 import time
