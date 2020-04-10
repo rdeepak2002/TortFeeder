@@ -12,14 +12,14 @@ servo1 = GPIO.PWM(11,50) # pin 11 for servo1, pulse 50Hz
 # Start PWM running, with value of 0 (pulse off)
 servo1.start(0)
 
-setAngle(180)
-
-setAngle(90)
-
 def setAngle(angle):
     servo1.ChangeDutyCycle(2+(angle/18))
     time.sleep(0.5)
     servo1.ChangeDutyCycle(0)
+
+setAngle(180)
+
+setAngle(90)
 
 servo1.stop()
 GPIO.cleanup()
