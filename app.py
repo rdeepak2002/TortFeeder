@@ -19,15 +19,15 @@ endAngle = 140
 
 # Method to set the angle
 def setAngle(angle):
-    servo1.ChangeDutyCycle(2+(angle/18))
-    time.sleep(0.2)
-    servo1.ChangeDutyCycle(0)
+	servo1.ChangeDutyCycle(2+(angle/18))
+	time.sleep(0.2)
+	servo1.ChangeDutyCycle(0)
 
 # Feed method to quickly change angle and dispense food
 def feed():
-    setAngle(startAngle)
-    setAngle(endAngle)
-    setAngle(startAngle)
+	setAngle(startAngle)
+	setAngle(endAngle)
+	setAngle(startAngle)
 
 # Start the motor at the necessary start angle
 setAngle(startAngle)
@@ -37,9 +37,14 @@ feed()
 
 app = Flask(__name__)
 
+# Define default route for app
 @app.route("/")
 def hello():
-    return "Hello, World!"
+	return "Hello, World!"
+
+# Run the server
+if __name__ == "__main__":
+	app.run(debug=True)
 
 # Clean up GPIO
 # servo1.stop()
