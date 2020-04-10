@@ -30,12 +30,10 @@ motorBusy = False
 def setAngle(angle):
 	servo1.ChangeDutyCycle(2+(angle/18))
 	time.sleep(0.5)
-	servo1.ChangeDutyCycle(0)
+	#servo1.ChangeDutyCycle(0)
 
 # Feed method to quickly change angle and dispense food
 def feedMotorTurn():
-	global motorBusy
-	motorBusy = True
 	setAngle(startAngle)
 	setAngle(endAngle)
 	setAngle(startAngle)
@@ -50,14 +48,9 @@ def root():
 # Feed request
 @app.route("/feed", methods= ['POST'])
 def feed():
-	global motorBusy
-	if(motorBusy == False):
-		feedMotorTurn()
-		time.sleep(1)
-		motorBusy = False
-		return jsonify(status="success")
-	else:
-		return jsonify(status="busy")
+	feedMotorTurn()
+	time.sleep(1)
+	return jsonify(status="success")
 
 # Prevent caching
 @app.after_request
