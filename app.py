@@ -49,7 +49,7 @@ def root():
 # Feed request
 @app.route("/feed", methods= ['POST'])
 def feed():
-	if(motorBusy == False):
+	if(motorBusy != None and motorBusy == False):
 		feedMotorTurn()
 		time.sleep(0.8)
 		motorBusy = False
