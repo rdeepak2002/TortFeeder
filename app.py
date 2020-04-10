@@ -42,6 +42,7 @@ def root():
 @app.route("/feed", methods= ['POST'])
 def feed():
 	feed()
+	time.sleep(0.5)
 	return jsonify(status="success")
 
 # Prevent caching
