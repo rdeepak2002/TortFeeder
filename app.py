@@ -33,10 +33,10 @@ def feedMotorTurn():
 	time.sleep(1)
 
 	# Servo movement to dispense food
-	servo1.ChangeDutyCycle(7.5)  # turn towards 90 degree
-	time.sleep(1) # sleep 1 second
-	servo1.ChangeDutyCycle(12.5)  # turn towards 180 degree
-	time.sleep(1) # sleep 1 second
+	servo1.ChangeDutyCycle(8)  	# turn towards 90 degree
+	time.sleep(1) 								# sleep 1 second
+	servo1.ChangeDutyCycle(12)  # turn towards 180 degree
+	time.sleep(1) 								# sleep 1 second
 	
 	# Clean up ports
 	servo1.stop()
