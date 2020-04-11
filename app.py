@@ -4,7 +4,7 @@
 # 2b. @lxterminal -e python3 /home/pi/TortFeeder/app.py
 
 # Import libraries
-from flask import Flask,request,render_template,send_from_directory,jsonify,Response
+from flask import Flask,send_file,request,render_template,send_from_directory,jsonify,Response
 from importlib import import_module
 from camera_opencv import Camera
 import time
@@ -53,6 +53,11 @@ def add_header(r):
 	r.headers["Expires"] = "0"
 	r.headers['Cache-Control'] = 'public, max-age=0'
 	return r
+
+@app.route('/.well-known/acme-challenge/<challenge>')
+def letsencrypt_check(challenge):
+	filename = app.root_path + '/.well-known/' + challenge
+	return send_file(filename)
 
 # Run the server
 if __name__ == "__main__":
