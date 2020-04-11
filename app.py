@@ -1,6 +1,7 @@
 # How to add autostart:
 # 1. nano /home/pi/.config/lxsession/LXDE-pi/autostart
-# 2. @lxterminal -e python3 /home/pi/TortFeeder/app.py
+# 2a. @lxterminal -e sudo gunicorn --chdir /home/pi/TortFeeder/ --threads 5 --workers 3 --bind 0.0.0.0:80 app:app
+# 2b. @lxterminal -e python3 /home/pi/TortFeeder/app.py
 
 # Import libraries
 from flask import Flask,request,render_template,send_from_directory,jsonify,Response
