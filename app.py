@@ -56,4 +56,4 @@ def add_header(r):
 # Run the server
 if __name__ == "__main__":
 	useDebug = True
-	app.run(host='0.0.0.0', port=80, debug=useDebug)
+	app.run(host='0.0.0.0', port=80, debug=useDebug, ssl_context=('cert.pem', 'key.pem'))
