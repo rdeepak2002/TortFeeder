@@ -1,5 +1,6 @@
 # How to add autostart:
 # 1. nano /home/pi/.config/lxsession/LXDE-pi/autostart
+# 2a. @lxterminal -e sh /home/pi/TortFeeder/launch.sh
 # 2a. @lxterminal -e sudo gunicorn --chdir /home/pi/TortFeeder/ --threads 5 --workers 3 --bind 0.0.0.0:80 app:app
 # 2b. @lxterminal -e python3 /home/pi/TortFeeder/app.py
 
@@ -20,19 +21,34 @@ app = Flask(__name__)
 def root():
 	return render_template("home.html")
 
-# Feed method to call arduino with serial communication
-def feedMotorTurn():
-	ser = serial.Serial('/dev/ttyACM0', 9800,timeout=1)
-	time.sleep(2)
-	ser.write(b'H')
-	ser.close()
+# Password request
+@app.route("/checkPassword", methods= ['POST'])
+def checkPassword():
+	print("PRINTING DATA!!")
+	print(request.data)
+	passIn = (json.loads(request.form['passIn']))
+	password = '0834e9ffe8a1902d4061262ecb751047edb18d888b2d5798c497dbbc8101451b'
 
-# Feed request
+	print("checking password " + passIn)
+
+	if(passIn == password):
+		return jsonify(status="correct")
+	else:
+		return jsonify(status="incorrect")
+
+# Feed request to turn motor
 @app.route("/feed", methods= ['POST'])
 def feed():
-	feedMotorTurn()
-	time.sleep(1)
-	return jsonify(status="success")
+	usbPort = '/dev/ttyACM0'
+	try:
+		ser = serial.Serial(usbPort, 9800,timeout=1)
+		time.sleep(2)
+		ser.write(b'H')
+		ser.close()
+		time.sleep(1)
+		return jsonify(status="success")
+	except:
+		return jsonify(status="failure")
 
 # Video streaming generator function
 def gen(camera):
@@ -45,6 +61,12 @@ def gen(camera):
 def video_feed():
 	return Response(gen(Camera()), mimetype='multipart/x-mixed-replace; boundary=frame')
 
+# For SSL Verification
+@app.route('/.well-known/acme-challenge/<challenge>')
+def letsencrypt_check(challenge):
+	filename = app.root_path + '/.well-known/' + challenge
+	return send_file(filename)
+
 # Prevent caching
 @app.after_request
 def add_header(r):
@@ -53,11 +75,6 @@ def add_header(r):
 	r.headers["Expires"] = "0"
 	r.headers['Cache-Control'] = 'public, max-age=0'
 	return r
-
-@app.route('/.well-known/acme-challenge/<challenge>')
-def letsencrypt_check(challenge):
-	filename = app.root_path + '/.well-known/' + challenge
-	return send_file(filename)
 
 # Run the server
 if __name__ == "__main__":
