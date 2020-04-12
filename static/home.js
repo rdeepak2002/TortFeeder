@@ -1,6 +1,4 @@
 function callFeed() {
-	console.log("calling feed...")
-
 	$('.feedBtn').prop('disabled', true);
 
 	$.ajax({
@@ -14,16 +12,14 @@ function callFeed() {
 }
 
 function checkPassword() {
-	console.log("checking password...")
+	passwordInput = $('#passwordInput').val();
 
 	$.ajax({
-		data : {
-			passIn : "test"
-		},
 		type : 'POST',
-		url : '/checkPassword'
+		url : '/checkPassword',
+		data : {'data':sha256(passwordInput)}
 	})
 	.done(function(data) {
-		alert(data)
+		console.log(data)
 	});
 }

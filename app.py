@@ -1,8 +1,6 @@
 # How to add autostart:
 # 1. nano /home/pi/.config/lxsession/LXDE-pi/autostart
-# 2a. @lxterminal -e sh /home/pi/TortFeeder/launch.sh
-# 2a. @lxterminal -e sudo gunicorn --chdir /home/pi/TortFeeder/ --threads 5 --workers 3 --bind 0.0.0.0:80 app:app
-# 2b. @lxterminal -e python3 /home/pi/TortFeeder/app.py
+# 2. @lxterminal -e sh /home/pi/TortFeeder/launch.sh
 
 # Import libraries
 from flask import Flask,send_file,request,render_template,send_from_directory,jsonify,Response
@@ -17,27 +15,22 @@ import serial
 app = Flask(__name__)
 
 # Define default route for app
-@app.route("/")
+@app.route('/')
 def root():
-	return render_template("home.html")
+	return render_template('home.html')
 
 # Password request
-@app.route("/checkPassword", methods= ['POST'])
+@app.route('/checkPassword', methods= ['POST'])
 def checkPassword():
-	print("PRINTING DATA!!")
-	print(request.data)
-	passIn = (json.loads(request.form['passIn']))
-	password = '0834e9ffe8a1902d4061262ecb751047edb18d888b2d5798c497dbbc8101451b'
-
-	print("checking password " + passIn)
-
+	passIn = request.form['data']
+	password = '095ce0e2e8896b400d5ca27ff55931ba87000ff8749977c8b003cf52f207ad02'
 	if(passIn == password):
-		return jsonify(status="correct")
+		return jsonify(status='correct')
 	else:
-		return jsonify(status="incorrect")
+		return jsonify(status='incorrect')
 
 # Feed request to turn motor
-@app.route("/feed", methods= ['POST'])
+@app.route('/feed', methods= ['POST'])
 def feed():
 	usbPort = '/dev/ttyACM0'
 	try:
@@ -46,9 +39,9 @@ def feed():
 		ser.write(b'H')
 		ser.close()
 		time.sleep(1)
-		return jsonify(status="success")
+		return jsonify(status='success')
 	except:
-		return jsonify(status="failure")
+		return jsonify(status='failure')
 
 # Video streaming generator function
 def gen(camera):
@@ -70,13 +63,14 @@ def letsencrypt_check(challenge):
 # Prevent caching
 @app.after_request
 def add_header(r):
-	r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-	r.headers["Pragma"] = "no-cache"
-	r.headers["Expires"] = "0"
+	r.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+	r.headers['Pragma'] = 'no-cache'
+	r.headers['Expires'] = '0'
 	r.headers['Cache-Control'] = 'public, max-age=0'
 	return r
 
 # Run the server
-if __name__ == "__main__":
+if __name__ == '__main__':
 	useDebug = True
-	app.run(host='0.0.0.0', port=443, debug=useDebug, ssl_context=('certificate.crt', 'private.key'))
+	app.run(host='0.0.0.0', port=5000, debug=useDebug)
+	# app.run(host='0.0.0.0', port=443, debug=useDebug, ssl_context=('certificate.crt', 'private.key'))
