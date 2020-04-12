@@ -62,4 +62,4 @@ def letsencrypt_check(challenge):
 # Run the server
 if __name__ == "__main__":
 	useDebug = True
-	app.run(host='0.0.0.0', port=443, debug=useDebug)
+	app.run(host='0.0.0.0', port=443, debug=useDebug, ssl_context=('certificate.crt', 'private.key'))
