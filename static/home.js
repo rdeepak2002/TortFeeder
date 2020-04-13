@@ -1,5 +1,6 @@
 $(function () {
 	let passwordInput = ''
+	let isGuest = false
 
 	setup()
 
@@ -20,6 +21,7 @@ $(function () {
 	}
 
 	function setScreenToLogin() {
+		isGuest = false
 		$('#homeScreen').fadeOut('slow', function() {
 			$('#loginScreen').fadeIn()
 		})
@@ -44,6 +46,7 @@ $(function () {
 
 	// Conitnue as guest button
 	$('#guestBtn').click(function() {
+		isGuest = true
 		setScreenToHome()
 	})
 
