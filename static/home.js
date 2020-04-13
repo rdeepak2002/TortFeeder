@@ -15,6 +15,12 @@ $(function () {
 	}
 
 	function setScreenToHome() {
+		if(isGuest) {
+			$('#feedBtn').hide()
+		}
+		else {
+			$('#feedBtn').show()
+		}
 		$('#loginScreen').fadeOut('slow', function() {
 			$('#homeScreen').fadeIn()
 		})
@@ -40,6 +46,10 @@ $(function () {
 		.done(function(data) {
 			if(data.status == 'correct') {
 				setScreenToHome()
+			}
+			if(data.status == 'incorrect') {
+				console.log('incorrect!')
+				$('#loginScreen').effect('shake');
 			}
 		})
 	})
