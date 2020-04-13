@@ -1,25 +1,69 @@
-function callFeed() {
-	$('.feedBtn').prop('disabled', true);
+$(function () {
+	let passwordInput = ''
 
-	$.ajax({
-		type : 'POST',
-		url : '/feed'
+	setup()
+
+	function setup() {
+		hideAll()
+		setScreenToLogin()
+	}
+
+	function hideAll() {
+		$('#loginScreen').hide()
+		$('#homeScreen').hide()
+	}
+
+	function setScreenToHome() {
+		$('#loginScreen').fadeOut('slow', function() {
+			$('#homeScreen').fadeIn()
+		})
+	}
+
+	function setScreenToLogin() {
+		$('#homeScreen').fadeOut('slow', function() {
+			$('#loginScreen').fadeIn()
+		})
+	}
+
+	// Password form clicked
+	$('#passwordForm').submit(function(e) {
+		e.preventDefault()
+		passwordInput = $('#passwordInput').val()
+
+		$.ajax({
+			type : 'POST',
+			url : '/checkPassword',
+			data : {'data':passwordInput}
+		})
+		.done(function(data) {
+			if(data.status == 'correct') {
+				setScreenToHome()
+			}
+		})
 	})
-	.done(function(data) {
-		$('.feedBtn').prop('disabled', false);
-		console.log(data);
-	});
-}
 
-function checkPassword() {
-	passwordInput = $('#passwordInput').val();
-
-	$.ajax({
-		type : 'POST',
-		url : '/checkPassword',
-		data : {'data':sha256(passwordInput)}
+	// Conitnue as guest button
+	$('#guestBtn').click(function() {
+		setScreenToHome()
 	})
-	.done(function(data) {
-		console.log(data)
-	});
-}
+
+	// Feed button clicked
+	$('#feedBtn').click(function() {
+		$('#feedBtn').prop('disabled', true)
+
+		$.ajax({
+			type : 'POST',
+			url : '/feed',
+			data : {'data':passwordInput}
+		})
+		.done(function(data) {
+			$('#feedBtn').prop('disabled', false)
+			if(data.status == 'invalid') {
+				alert('You must be logged in to feed the tortoise!')
+			}
+			if(data.status == 'failure') {
+				alert('Error connecting to servo!')
+			}
+		})
+	})
+})

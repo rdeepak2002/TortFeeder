@@ -7,12 +7,11 @@
 		<meta name="description" content="AugNav website for map creators.">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<link rel="stylesheet" type="text/css" href="../static/bootstrap.min.css">
-
-		<link rel="stylesheet" type="text/css" href="../static/home.css">
-
 		<link rel="icon" type="image/png" href="../static/favicon-32x32.png" sizes="32x32" />
 		<link rel="icon" type="image/png" href="../static/favicon-16x16.png" sizes="16x16" />
+
+		<link rel="stylesheet" type="text/css" href="../static/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../static/home.css">
 
 		<script src="../static/jquery.min.js"></script>
 		<script src="../static/bootstrap.min.js"></script>
@@ -21,9 +20,18 @@
 		<script src="../static/home.js"></script>
 	</head>
 	<body>
-		<button class="feedBtn" onclick="callFeed()">Feed</button>
-		<img src="/video_feed"></img>
-		<!-- <input id="passwordInput" placeholder="password" type="password"></intpt>
-		<button onclick="checkPassword()">Enter</button> -->
+		<div id="loginScreen">
+			<form id="passwordForm">
+				<input id="passwordInput" placeholder="password" type="password"></input>
+				<button type="submit">Enter</button>
+			</form>
+
+			<p id="guestBtn">continue as guest</p>
+		</div>
+
+		<div id="homeScreen">
+			<button id="feedBtn">Feed</button>
+			<img src="/video_feed"></img>
+		</div>
 	</body>
 </html>

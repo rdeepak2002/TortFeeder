@@ -10,9 +10,13 @@ import time
 import json
 import os
 import serial
+import hashlib
 
 # Create the flask server
 app = Flask(__name__)
+
+# Create password variable
+password = '224ec67c8947961173b43122f0b4e387052be28030332330e78df631b342d48e'
 
 # Define default route for app
 @app.route('/')
@@ -22,8 +26,8 @@ def root():
 # Password request
 @app.route('/checkPassword', methods= ['POST'])
 def checkPassword():
-	passIn = request.form['data']
-	password = '095ce0e2e8896b400d5ca27ff55931ba87000ff8749977c8b003cf52f207ad02'
+	global password
+	passIn = hashlib.sha256(request.form['data'].encode('utf-8')).hexdigest()
 	if(passIn == password):
 		return jsonify(status='correct')
 	else:
@@ -32,16 +36,22 @@ def checkPassword():
 # Feed request to turn motor
 @app.route('/feed', methods= ['POST'])
 def feed():
-	usbPort = '/dev/ttyACM0'
-	try:
-		ser = serial.Serial(usbPort, 9800,timeout=1)
-		time.sleep(2)
-		ser.write(b'H')
-		ser.close()
-		time.sleep(1)
-		return jsonify(status='success')
-	except:
-		return jsonify(status='failure')
+	global password
+	passIn = hashlib.sha256(request.form['data'].encode('utf-8')).hexdigest()
+
+	if(passIn == password):
+		usbPort = '/dev/ttyACM0'
+		try:
+			ser = serial.Serial(usbPort, 9800,timeout=1)
+			time.sleep(2)
+			ser.write(b'H')
+			ser.close()
+			time.sleep(1)
+			return jsonify(status='success')
+		except:
+			return jsonify(status='failure')
+	else:
+		return jsonify(status='invalid')
 
 # Video streaming generator function
 def gen(camera):
