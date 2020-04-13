@@ -41,25 +41,23 @@
 	<body class="disable-selection">
 		<div id="loginScreen">
 			<h1 id="loginTitle">TORT FEEDER</h1>
-
 			<form id="passwordForm">
 				<div class="group">
 		      <input id="passwordInput" placeholder="password" type="password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'password'" />
 		      <span class="highlight"></span>
 		      <span class="bar"></span>
 		    </div>
-
 				<button id="passwordSubmitBtn" type="submit">ENTER</button>
 			</form>
-
 			<p id="guestBtn">continue as guest</p>
 		</div>
 
 		<div id="homeScreen">
 			<img id="videoFeed" src="/video_feed"></img>
 			<button id="feedBtn">Feed</button>
-
 			<p id="signOutBtn">sign out</p>
 		</div>
+
+		<div class="loader"></div>
 	</body>
 </html>

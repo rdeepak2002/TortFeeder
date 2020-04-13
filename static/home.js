@@ -10,8 +10,17 @@ $(function () {
 		setScreenToLogin()
 	}
 
+	function hideLoader() {
+		$('.loader').hide()
+	}
+
+	function showLoader() {
+		$('.loader').fadeIn('slow')
+	}
+
 	// Hide all screens and elements
 	function hideAll() {
+		hideLoader()
 		$('#loginScreen').hide()
 		$('#homeScreen').hide()
 	}
@@ -42,19 +51,26 @@ $(function () {
 		e.preventDefault()
 		passwordInput = $('#passwordInput').val()
 
-		$.ajax({
-			type : 'POST',
-			url : '/checkPassword',
-			data : {'data':passwordInput}
-		})
-		.done(function(data) {
-			if(data.status == 'correct') {
-				setScreenToHome()
-			}
-			if(data.status == 'incorrect') {
-				console.log('incorrect!')
-				$('#loginScreen').effect('shake');
-			}
+
+		$('#loginScreen').fadeOut('slow', function() {
+			showLoader()
+
+			$.ajax({
+				type : 'POST',
+				url : '/checkPassword',
+				data : {'data':passwordInput}
+			})
+			.done(function(data) {
+				$('.loader').fadeOut('slow', function() {
+					if(data.status == 'correct') {
+						setScreenToHome()
+					}
+					if(data.status == 'incorrect') {
+						$('#loginScreen').show()
+						$('#loginScreen').effect('shake')
+					}
+				})
+			})
 		})
 	})
 
