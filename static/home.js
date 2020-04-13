@@ -4,16 +4,19 @@ $(function () {
 
 	setup()
 
+	// Initial method called
 	function setup() {
 		hideAll()
 		setScreenToLogin()
 	}
 
+	// Hide all screens and elements
 	function hideAll() {
 		$('#loginScreen').hide()
 		$('#homeScreen').hide()
 	}
 
+	// Set screen to home screen
 	function setScreenToHome() {
 		if(isGuest) {
 			$('#feedBtn').hide()
@@ -26,6 +29,7 @@ $(function () {
 		})
 	}
 
+	// Set screen to loginscreen
 	function setScreenToLogin() {
 		isGuest = false
 		$('#homeScreen').fadeOut('slow', function() {
@@ -54,7 +58,7 @@ $(function () {
 		})
 	})
 
-	// Conitnue as guest button
+	// Continue as guest button
 	$('#guestBtn').click(function() {
 		isGuest = true
 		setScreenToHome()
@@ -78,5 +82,10 @@ $(function () {
 				alert('Error connecting to servo!')
 			}
 		})
+	})
+
+	// Sign out button clicked
+	$('#signOutBtn').click(function() {
+		setScreenToLogin()
 	})
 })
