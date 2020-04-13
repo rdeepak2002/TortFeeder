@@ -12,6 +12,7 @@ $(function () {
 
 	// Hide all screens and elements
 	function hideAll() {
+		$('.loader').hide()
 		$('#loginScreen').hide()
 		$('#homeScreen').hide()
 	}
