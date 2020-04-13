@@ -7,20 +7,41 @@ $(function () {
 	// Initial method called
 	function setup() {
 		hideAll()
-		setScreenToLogin()
-	}
 
-	function hideLoader() {
-		$('.loader').hide()
-	}
-
-	function showLoader() {
-		$('.loader').fadeIn('slow')
+		$('#videoFeed').on('load', function() {
+			$('.loader').fadeOut('slow', function() {
+				let passwordCookie = getCookie('password')
+				if(passwordCookie) {
+					// Check if password cookie is correct
+					$.ajax({
+						type : 'POST',
+						url : '/checkPassword',
+						data : {'data':passwordCookie}
+					})
+					.done(function(data) {
+						$('.loader').fadeOut('slow', function() {
+							if(data.status == 'correct') {
+								setCookie('password', passwordCookie, 360)
+								setScreenToHome()
+							}
+							if(data.status == 'incorrect') {
+								eraseCookie('password')
+								$('#loginScreen').show()
+								$('#loginScreen').effect('shake')
+								setScreenToLogin()
+							}
+						})
+					})
+				}
+				else {
+					setScreenToLogin()
+				}
+			})
+		})
 	}
 
 	// Hide all screens and elements
 	function hideAll() {
-		hideLoader()
 		$('#loginScreen').hide()
 		$('#homeScreen').hide()
 	}
@@ -49,11 +70,10 @@ $(function () {
 	// Password form clicked
 	$('#passwordForm').submit(function(e) {
 		e.preventDefault()
-		passwordInput = $('#passwordInput').val()
-
+		passwordInput = $('#passwordInput').val().trim()
 
 		$('#loginScreen').fadeOut('slow', function() {
-			showLoader()
+			$('.loader').fadeIn('slow')
 
 			$.ajax({
 				type : 'POST',
@@ -63,9 +83,11 @@ $(function () {
 			.done(function(data) {
 				$('.loader').fadeOut('slow', function() {
 					if(data.status == 'correct') {
+						setCookie('password', passwordInput, 360)
 						setScreenToHome()
 					}
 					if(data.status == 'incorrect') {
+						eraseCookie('password')
 						$('#loginScreen').show()
 						$('#loginScreen').effect('shake')
 					}
@@ -77,6 +99,7 @@ $(function () {
 	// Continue as guest button
 	$('#guestBtn').click(function() {
 		isGuest = true
+		eraseCookie('password')
 		setScreenToHome()
 	})
 
@@ -102,6 +125,33 @@ $(function () {
 
 	// Sign out button clicked
 	$('#signOutBtn').click(function() {
+		eraseCookie('password')
 		setScreenToLogin()
 	})
+
+	// Methods to manage password cookie
+	function setCookie(name,value,days) {
+		var expires = ''
+		if (days) {
+			var date = new Date()
+			date.setTime(date.getTime() + (days*24*60*60*1000))
+			expires = '; expires=' + date.toUTCString()
+		}
+		document.cookie = name + '=' + (value || '')  + expires + '; path=/'
+	}
+
+	function getCookie(name) {
+		var nameEQ = name + '='
+		var ca = document.cookie.split(';')
+		for(var i=0;i < ca.length;i++) {
+			var c = ca[i]
+			while (c.charAt(0)==' ') c = c.substring(1,c.length)
+			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length)
+		}
+		return null
+	}
+
+	function eraseCookie(name) {
+		document.cookie = name+'=; Max-Age=-99999999;'
+	}
 })
