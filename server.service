@@ -1,0 +1,14 @@
+[Unit]
+Description=TortFeeder Server
+After=network.target
+
+[Service]
+ExecStart=sh launch.sh
+WorkingDirectory=/home/pi/TortFeeder
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
