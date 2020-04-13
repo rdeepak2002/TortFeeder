@@ -1,14 +1,33 @@
 <html>
 	<head>
-		<title>TortWeb</title>
+		<title>Tort Feeder</title>
 
 		<meta charset="utf-8">
 		<meta name="robots" content="index, follow">
-		<meta name="description" content="AugNav website for map creators.">
+		<meta name="description" content="TortFeeder Website for my pet tortoise, Lettuce Be Happy.">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<link rel="icon" type="image/png" href="../static/favicon-32x32.png" sizes="32x32" />
-		<link rel="icon" type="image/png" href="../static/favicon-16x16.png" sizes="16x16" />
+		<meta name="application-name" content="&nbsp;"/>
+		<meta name="msapplication-TileColor" content="#FFFFFF" />
+		<meta name="msapplication-TileImage" content="../static/favicon/mstile-144x144.png" />
+		<meta name="msapplication-square70x70logo" content="../static/favicon/mstile-70x70.png" />
+		<meta name="msapplication-square150x150logo" content="../static/favicon/mstile-150x150.png" />
+		<meta name="msapplication-wide310x150logo" content="../static/favicon/mstile-310x150.png" />
+		<meta name="msapplication-square310x310logo" content="../static/favicon/mstile-310x310.png" />
+
+		<link rel="apple-touch-icon-precomposed" sizes="57x57" href="../static/favicon/apple-touch-icon-57x57.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../static/favicon/apple-touch-icon-114x114.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="../static/favicon/apple-touch-icon-72x72.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../static/favicon/apple-touch-icon-144x144.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="60x60" href="../static/favicon/apple-touch-icon-60x60.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="120x120" href="../static/favicon/apple-touch-icon-120x120.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="76x76" href="../static/favicon/apple-touch-icon-76x76.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="152x152" href="../static/favicon/apple-touch-icon-152x152.png" />
+		<link rel="icon" type="image/png" href="../static/favicon/favicon-196x196.png" sizes="196x196" />
+		<link rel="icon" type="image/png" href="../static/favicon/favicon-96x96.png" sizes="96x96" />
+		<link rel="icon" type="image/png" href="../static/favicon/favicon-32x32.png" sizes="32x32" />
+		<link rel="icon" type="image/png" href="../static/favicon/favicon-16x16.png" sizes="16x16" />
+		<link rel="icon" type="image/png" href="../static/favicon/favicon-128.png" sizes="128x128" />
 
 		<link rel="stylesheet" type="text/css" href="../static/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="../static/home.css">
@@ -16,22 +35,28 @@
 		<script src="../static/jquery.min.js"></script>
 		<script src="../static/bootstrap.min.js"></script>
 
-		<script src="../static/encrypt.js"></script>
 		<script src="../static/home.js"></script>
 	</head>
 	<body>
-		<div id="loginScreen">
+		<div class="disable-selection" id="loginScreen">
+			<img id="tortFeederLogo" src="../static/Images/TortFeederLogo.png"></img>
+
 			<form id="passwordForm">
-				<input id="passwordInput" placeholder="password" type="password"></input>
-				<button type="submit">Enter</button>
+				<div class="group">
+		      <input id="passwordInput" placeholder="password" type="password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'password'" />
+		      <span class="highlight"></span>
+		      <span class="bar"></span>
+		    </div>
+
+				<button id="passwordSubmitBtn" type="submit">ENTER</button>
 			</form>
 
 			<p id="guestBtn">continue as guest</p>
 		</div>
 
 		<div id="homeScreen">
+			<img id="videoFeed" src="/video_feed"></img>
 			<button id="feedBtn">Feed</button>
-			<img src="/video_feed"></img>
 		</div>
 	</body>
 </html>
