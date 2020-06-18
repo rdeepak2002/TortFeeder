@@ -1,3 +1,3 @@
 # TortFeeder
 ## About
-This flask server (app.py) can control a micro servo through a button press on the client-end website. 
+This flask server (app.py) takes in post requests to control a micro servo. 
