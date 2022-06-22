@@ -3,7 +3,7 @@ certifi==2018.8.24
 cryptography==2.6.1
 Flask==1.1.2
 gunicorn==20.0.4
-numpy==1.16.2
+numpy==1.22.0
 oauthlib==2.1.0
 opencv-contrib-python==3.4.3.18
 opencv-python==3.4.3.18
